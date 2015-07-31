@@ -4,7 +4,6 @@
 var app = angular.module('weatherapp', [])
 .controller('MyModuleWeather', function($scope, $http, $log) {
   $scope.city = 'Trichy';
-
   $scope.change = function($la,$lo) {
     var url = 'http://api.openweathermap.org/data/2.5/weather';
     $http.jsonp(url, { params : {
