@@ -1,19 +1,16 @@
-/**
- * Renders the weather status for a city.
- */
 var app = angular.module('weatherapp', [])
 .controller('MyModuleWeather', function($scope, $http, $log) {
   $scope.city = 'Trichy';
   $scope.change = function($la,$lo) {
     var url = 'http://api.openweathermap.org/data/2.5/weather';
     $http.jsonp(url, { params : {
-        lat : $la || 10.8,
-        lon : $lo || 78.7,
+        lat : $la || Drupal.settings.wc_latlong.wc_lat,
+        lon : $lo || Drupal.settings.wc_latlong.wc_long,
         units : 'metric',
         callback: 'JSON_CALLBACK'
       }}).
       success(function(data, status, headers, config) {
-		$scope.Place = data.name;
+		$scope.Place = data.name + "," + data.sys.country;
         $scope.main = data.main;
         $scope.wind = data.wind;
         $scope.description = data.weather[0].description;
@@ -26,7 +23,7 @@ var app = angular.module('weatherapp', [])
 });
 
 window.onload = function () {
-    var latlng = new google.maps.LatLng(10.8, 78.7);
+    var latlng = new google.maps.LatLng(Drupal.settings.wc_latlong.wc_lat, Drupal.settings.wc_latlong.wc_long);
     var map = new google.maps.Map(document.getElementById('map'), {
         center: latlng,
         zoom: 11,

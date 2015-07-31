@@ -1,4 +1,10 @@
 <?php
+$wc_latlong = array(
+  'wc_lat' => variable_get('wc_latitude', '10.8'),
+  'wc_long' => variable_get('wc_longitude', '78.7'),  
+ );
+drupal_add_js(array('wc_latlong' => $wc_latlong), 'setting');
+
 function weathercheck_block_info() {
   $blocks['weather'] = array(
     'info' => t('Weather'),
@@ -9,7 +15,6 @@ function weathercheck_block_info() {
 
 function weathercheck_block_view($delta = '') {
   $block = array();
-
   switch ($delta) {
     case 'weather':
       $path = drupal_get_path('module', 'weathercheck');
@@ -35,4 +40,47 @@ function weathercheck_theme() {
       'variables' => array(),
     ),
   );
+}
+
+function weathercheck_menu() {
+	$menu['admin/config/weathercheck'] = array( 
+		'title' => t('Weather Check'),
+		'description' => t('Weather Check tools'), 
+		//'page callback' => 'system_admin_menu_block_page', 
+		'access arguments' => array('access administration pages'), 
+		//'file' => 'system.admin.inc',
+		//'file path' => drupal_get_path('module', 'system'), 
+		'position' => 'right', 
+	);   
+ 
+	$menu['admin/config/weathercheck/config'] = array( 
+		'title' => t('Weather check configuration') , 
+		'description' => t('Configure the weather check module') , 
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('weathercheck_form'),
+		'type' => MENU_NORMAL_ITEM, 
+		'access arguments' => array('administer site configuration') , 
+	);   
+	
+	return $menu ;
+}
+
+function weathercheck_form($form, &$form_state) {
+  $form['wc_latitude'] = array(
+    '#type' => 'textfield',
+    '#element_validate' => array('element_validate_number'),
+    '#title' => t('Latitude of desired location'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('wc_latitude', '10.8'),
+  );
+  
+  $form['wc_longitude'] = array(
+    '#type' => 'textfield',
+    '#element_validate' => array('element_validate_number'),
+    '#title' => t('Longitude of desired location'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('wc_longitude', '78.7'),
+  );
+ 
+  return system_settings_form($form);
 }
