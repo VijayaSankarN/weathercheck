@@ -1,0 +1,38 @@
+<?php
+function weathercheck_block_info() {
+  $blocks['weather'] = array(
+    'info' => t('Weather'),
+  );
+
+  return $blocks;
+}
+
+function weathercheck_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'weather':
+      $path = drupal_get_path('module', 'weathercheck');
+      $block['subject'] = t('Weather status');
+      $block['content'] = array(
+        '#theme' => 'weather_status',
+        '#attached' => array(
+          'js' => array(
+            'https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js',
+            $path . '/weathercheck.js',
+          ),
+        ),
+      );
+      break;
+  }
+  return $block;
+}
+
+function weathercheck_theme() {
+  return array(
+    'weather_status' => array(
+      'template' => 'weather-status',
+      'variables' => array(),
+    ),
+  );
+}
