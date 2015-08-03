@@ -24,7 +24,7 @@ function weathercheck_block_view($delta = '') {
         '#attached' => array(
           'js' => array(
             'https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js',
-            $path . '/weathercheck.js',
+            $path . '/js/weathercheck.js',
           ),
         ),
       );
@@ -46,10 +46,7 @@ function weathercheck_menu() {
 	$menu['admin/config/weathercheck'] = array( 
 		'title' => t('Weather Check'),
 		'description' => t('Weather Check tools'), 
-		//'page callback' => 'system_admin_menu_block_page', 
 		'access arguments' => array('access administration pages'), 
-		//'file' => 'system.admin.inc',
-		//'file path' => drupal_get_path('module', 'system'), 
 		'position' => 'right', 
 	);   
  
@@ -62,16 +59,35 @@ function weathercheck_menu() {
 		'access arguments' => array('administer site configuration') , 
 	);   
 	
-	return $menu ;
+      $path = drupal_get_path('module', 'weathercheck');
+      $menu['subject'] = t('Weather status');
+      $menu['content'] = array(
+        '#theme' => 'weather_status',
+        '#attached' => array(
+          'js' => array(
+            'https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js',
+            $path . '/js/weathercheck.js',
+          ),
+        ),
+      );
+    
+	
+	return $menu;
 }
 
 function weathercheck_form($form, &$form_state) {
+	
   $form['wc_latitude'] = array(
     '#type' => 'textfield',
     '#element_validate' => array('element_validate_number'),
     '#title' => t('Latitude of desired location'),
     '#required' => TRUE,
     '#default_value' => variable_get('wc_latitude', '10.8'),
+    '#prefix' => "
+    <div>
+    <p>Enter the details of the default desired location for your weather map.</p>
+    </div>
+    ",
   );
   
   $form['wc_longitude'] = array(
@@ -81,6 +97,51 @@ function weathercheck_form($form, &$form_state) {
     '#required' => TRUE,
     '#default_value' => variable_get('wc_longitude', '78.7'),
   );
- 
+
+$options = array();
+$options[1]["1"] = "One";
+$options[2]["1"] = "ChoiceFirst";
+$options[1]["2"] = "Two";
+$options[2]["2"] = "ChoiceSecond";
+$options[1]["3"] = "Three";
+$options[2]["3"] = "ChoiceThird";
+$options[1]["4"] = "Four";
+$options[2]["4"] = "ChoiceFourth";
+
+$form['wc_Disp_Select'] = array(
+  '#title' => t(''),
+  '#type' => 'checkboxes',
+  '#description' => t(''),
+  '#options' => $options[1],
+  '#prefix' => '<hr/><br/>Select all the required details for weather forecast:',
+  //'#default_value' => array("1", "2", "3")
+); 
+
+$form['update'] = array(
+  '#type' => 'button',
+  '#value' => 'Update',
+  '#ajax' => array(
+      'callback' => 'weathercheck_form_callback',
+      'wrapper' => 'update-name-value',
+    ),
+);
+  
+  $form['wc_Disp_Info'] = array(
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#value' => (
+    ((isset($form_state['values']['wc_Disp_Select'][1]) &&  $form_state['values']['wc_Disp_Select'][1]) ? $options[2]["1"] : '').
+    ((isset($form_state['values']['wc_Disp_Select'][2]) &&  $form_state['values']['wc_Disp_Select'][2]) ? $options[2]["2"] : '').
+    ((isset($form_state['values']['wc_Disp_Select'][3]) &&  $form_state['values']['wc_Disp_Select'][3]) ? $options[2]["3"] : '').
+    ((isset($form_state['values']['wc_Disp_Select'][4]) &&  $form_state['values']['wc_Disp_Select'][4]) ? $options[2]["4"] : '')
+    ),
+    '#prefix' => "<div id='update-name-value'>",
+    '#suffix' => "</div>",
+  );
+
   return system_settings_form($form);
+}
+
+function weathercheck_form_callback($form, $form_state) {
+	return $form['wc_Disp_Info'];
 }
