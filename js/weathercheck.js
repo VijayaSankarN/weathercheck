@@ -10,7 +10,9 @@ var app = angular.module('weatherapp', [])
         callback: 'JSON_CALLBACK'
       }}).
       success(function(data, status, headers, config) {
-		$scope.Place = data.name + "," + data.sys.country;
+		  alert(Drupal.settings.wc_latlong.wc_disp[1]);
+		$scope.Place = Drupal.settings.wc_latlong.wc_disp[0]=="1"?data.name:'';
+		$scope.Place += Drupal.settings.wc_latlong.wc_disp[1]=="1"?(Drupal.settings.wc_latlong.wc_disp[0]?(','+data.sys.country):data.sys.country):'';
         $scope.main = data.main;
         $scope.wind = data.wind;
         $scope.description = data.weather[0].description;

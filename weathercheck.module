@@ -1,7 +1,8 @@
 <?php
 $wc_latlong = array(
   'wc_lat' => variable_get('wc_latitude', '10.8'),
-  'wc_long' => variable_get('wc_longitude', '78.7'),  
+  'wc_long' => variable_get('wc_longitude', '78.7'),
+  'wc_disp' => explode(';',variable_get('wc_Disp_Info','1;1')),
  );
 drupal_add_js(array('wc_latlong' => $wc_latlong), 'setting');
 
@@ -99,14 +100,22 @@ function weathercheck_form($form, &$form_state) {
   );
 
 $options = array();
-$options[1]["1"] = "One";
-$options[2]["1"] = "ChoiceFirst";
-$options[1]["2"] = "Two";
-$options[2]["2"] = "ChoiceSecond";
-$options[1]["3"] = "Three";
-$options[2]["3"] = "ChoiceThird";
-$options[1]["4"] = "Four";
-$options[2]["4"] = "ChoiceFourth";
+$options[1]["1"] = "City Name";
+$options[2]["1"] = "data.name";
+$options[1]["2"] = "Country Code";
+$options[2]["2"] = "data.sys.country";
+$options[1]["3"] = "Temperature";
+$options[2]["3"] = "data.main.temp";
+$options[1]["4"] = "Cloud Description";
+$options[2]["4"] = "data.weather.description";
+$options[1]["6"] = "Pressure";
+$options[1]["7"] = "Humidity";
+$options[1]["8"] = "Minimum temperature";
+$options[1]["9"] = "Maximum temperature";
+$options[1]["10"] = "Visibility level";
+$options[1]["11"] = "Wind speed";
+$options[1]["11"] = "Wind degree";
+
 
 $form['wc_Disp_Select'] = array(
   '#title' => t(''),
@@ -130,10 +139,10 @@ $form['update'] = array(
     '#type' => 'textfield',
     '#required' => TRUE,
     '#value' => (
-    ((isset($form_state['values']['wc_Disp_Select'][1]) &&  $form_state['values']['wc_Disp_Select'][1]) ? $options[2]["1"] : '').
-    ((isset($form_state['values']['wc_Disp_Select'][2]) &&  $form_state['values']['wc_Disp_Select'][2]) ? $options[2]["2"] : '').
-    ((isset($form_state['values']['wc_Disp_Select'][3]) &&  $form_state['values']['wc_Disp_Select'][3]) ? $options[2]["3"] : '').
-    ((isset($form_state['values']['wc_Disp_Select'][4]) &&  $form_state['values']['wc_Disp_Select'][4]) ? $options[2]["4"] : '')
+    (empty($form_state['values']['wc_Disp_Select'][1])?'0;':'1;').
+    (empty($form_state['values']['wc_Disp_Select'][2])?'0;':'1;').
+    (empty($form_state['values']['wc_Disp_Select'][3])?'0;':'1;').
+    (empty($form_state['values']['wc_Disp_Select'][4])?'0;':'1;')
     ),
     '#prefix' => "<div id='update-name-value'>",
     '#suffix' => "</div>",
