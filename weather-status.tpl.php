@@ -9,8 +9,12 @@
 <div id="map" style="height: 300px; border: 1px solid #000;"></div>
 
 <div ng-app="weatherapp" id="YourElementId" ng-controller="MyModuleWeather">
-  <h3>{{Place}}</h3>
-  <p>{{description}}</p>
-  <p>Temperature: {{main.temp}}</p>
-  <p>Wind speed: {{wind.speed}}</p>
+  <h3 ng-bind="Place"></h3>
+  <p ng-bind="description"/></span>
+  <p ng-bind-html-unsafe="temperature"></p>
+  <p ng-bind="Pressure"></p>
+  <p ng-bind="Humidity"></p>
+  <p ng-bind="windSpeed"></p>
+  <p ng-bind="WindDir"></p>
+  <p ng-bind="VisibilityArea"></p>
 </div>
