@@ -108,7 +108,7 @@ function weathercheck_form($form, &$form_state) {
         '#description' => t(''),
         '#options' => $options[1],
         '#prefix' => '<hr/><br/>Select all the required details for weather forecast:',
-        '#default_value' => (isset($conf['wc_Disp_Select'])?variable_get('wc_Disp_Select'):array("1","2")),
+        '#default_value' => (isset($conf['wc_Disp_Select'])?variable_get('wc_Disp_Select'):array("1","2","3")),
     ); 
 
     $form['update'] = array(
