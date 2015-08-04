@@ -39,7 +39,7 @@ window.onload = function () {
     var latlng = new google.maps.LatLng(Drupal.settings.wc_latlong.wc_lat, Drupal.settings.wc_latlong.wc_long);
     var map = new google.maps.Map(document.getElementById('map'), {
         center: latlng,
-        zoom: 11,
+        zoom: 8,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     var marker = new google.maps.Marker({
