@@ -1,0 +1,5 @@
+function weathercheck_install(){
+}
+
+function weathercheck_uninstall(){
+}
