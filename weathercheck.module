@@ -3,7 +3,7 @@
 $wc_latlong = array(
     'wc_lat' => variable_get('wc_latitude', '10.8'),
     'wc_long' => variable_get('wc_longitude', '78.7'),
-    'wc_disp' => explode(';',variable_get('wc_Disp_Info','1;1;0;0;0;0;0;0;0;0;0;')),
+    'wc_disp' => explode(';',variable_get('wc_Disp_Info','1;1;1;0;0;0;0;0;0;0;0;')),
 );
 
 drupal_add_js(array('wc_latlong' => $wc_latlong), 'setting');
