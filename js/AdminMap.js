@@ -18,7 +18,7 @@ window.onload = function (){
         draggable: true
   });
   google.maps.event.addListener(marker, 'dragend', function (a) {
-        document.getElementById('edit-wc-latitude').value = a.latLng.lat().toFixed(4);
-        document.getElementById('edit-wc-longitude').value = a.latLng.lng().toFixed(4);
+        document.getElementById('edit-weathercheck-latitude').value = a.latLng.lat().toFixed(4);
+        document.getElementById('edit-weathercheck-longitude').value = a.latLng.lng().toFixed(4);
   });
 }

@@ -11,14 +11,14 @@
  */
 function weathercheck_install() {
   global $conf;
-  if (!isset($conf['wc_latitude'])) {
-    variable_set('wc_latitude', '10.8');
+  if (!isset($conf['weathercheck_latitude'])) {
+    variable_set('weathercheck_latitude', '10.8');
   }
-  if (!isset($conf['wc_longitude'])) {
-    variable_set('wc_longitude', '78.7');
+  if (!isset($conf['weathercheck_longitude'])) {
+    variable_set('weathercheck_longitude', '78.7');
   }
-  if (!isset($conf['wc_Disp_Info'])) {
-    variable_set('wc_Disp_Info', '1;1;1;0;0;0;0;0;0;0;0;');
+  if (!isset($conf['weathercheck_Disp_Info'])) {
+    variable_set('weathercheck_Disp_Info', '1;1;1;0;0;0;0;0;0;0;0;');
   }
 }
 
@@ -26,8 +26,8 @@ function weathercheck_install() {
  * Implements hook_uninstall().
  */
 function weathercheck_uninstall() {
-  variable_del('wc_latitude');
-  variable_del('wc_longitude');
-  variable_del('wc_Disp_Info');
-  variable_del('wc_Disp_Select');
+  variable_del('weathercheck_latitude');
+  variable_del('weathercheck_longitude');
+  variable_del('weathercheck_Disp_Info');
+  variable_del('weathercheck_Disp_Select');
 }
