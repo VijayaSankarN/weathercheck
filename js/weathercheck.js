@@ -1,3 +1,10 @@
+/**
+ * @file
+ * Generates map for retrieving the latitude and longitude of a desired location.
+ *
+ * @author: Vijaya Sankar N <https://www.drupal.org/user/3238637>
+ */
+
 var app = angular.module('weatherapp', [])
         .controller('MyModuleWeather', function ($scope, $http, $log) {
             $scope.city = 'Trichy';
@@ -8,7 +15,7 @@ var app = angular.module('weatherapp', [])
                         lon: $lo || Drupal.settings.wc_latlong.wc_long,
                         units: 'metric',
                         callback: 'JSON_CALLBACK'
-                    }}).
+                  }}).
                         success(function (data, status, headers, config) {
                             $scope.Place = Drupal.settings.wc_latlong.wc_disp[0] == "1" ? data.name : '';
                             $scope.Place += Drupal.settings.wc_latlong.wc_disp[1] == "1" ? (Drupal.settings.wc_latlong.wc_disp[0] ? (',' + data.sys.country) : data.sys.country) : '';
@@ -30,24 +37,24 @@ var app = angular.module('weatherapp', [])
         });
 
 function windDirection(num) {
-    var val = Math.floor((num / 22.5) + 0.5);
-    var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
-    return arr[(val % 16)];
+  var val = Math.floor((num / 22.5) + 0.5);
+  var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+  return arr[(val % 16)];
 }
 
 window.onload = function () {
-    var latlng = new google.maps.LatLng(Drupal.settings.wc_latlong.wc_lat, Drupal.settings.wc_latlong.wc_long);
-    var map = new google.maps.Map(document.getElementById('map'), {
+  var latlng = new google.maps.LatLng(Drupal.settings.wc_latlong.wc_lat, Drupal.settings.wc_latlong.wc_long);
+  var map = new google.maps.Map(document.getElementById('map'), {
         center: latlng,
         zoom: 8,
         mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-    var marker = new google.maps.Marker({
+  });
+  var marker = new google.maps.Marker({
         position: latlng,
         map: map,
         draggable: true
-    });
-    google.maps.event.addListener(marker, 'dragend', function (a) {
+  });
+  google.maps.event.addListener(marker, 'dragend', function (a) {
         angular.element(document.getElementById('YourElementId')).scope().change(a.latLng.lat().toFixed(4), a.latLng.lng().toFixed(4));
-    });
+  });
 };

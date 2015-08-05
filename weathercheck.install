@@ -1,24 +1,33 @@
 <?php
-function weathercheck_install(){
-    global $conf;
-    //Checking if wc_latitude and wc_longitude is previously set. If not, set it to
-    //default location of Tiruchirappalli, India.
-    if (!isset($conf['wc_latitude'])) {
-        variable_set('wc_latitude', '10.8');
-    }
-    
-    if (!isset($conf['wc_longitude'])) {
-        variable_set('wc_longitude', '78.7');
-    }
+/**
+ * @file
+ * Generates map for retrieving the location of a desired location.
+ *
+ * Vijaya Sankar N <https://www.drupal.org/user/3238637>
+ */
 
-    if (!isset($conf['wc_Disp_Info'])) {
-        variable_set('wc_Disp_Info', '1;1;1;0;0;0;0;0;0;0;0;');
-    }
+/**
+ * Implements hook_install().
+ */
+function weathercheck_install() {
+  global $conf;
+  if (!isset($conf['wc_latitude'])) {
+    variable_set('wc_latitude', '10.8');
+  }
+  if (!isset($conf['wc_longitude'])) {
+    variable_set('wc_longitude', '78.7');
+  }
+  if (!isset($conf['wc_Disp_Info'])) {
+    variable_set('wc_Disp_Info', '1;1;1;0;0;0;0;0;0;0;0;');
+  }
 }
 
-function weathercheck_uninstall(){
-	variable_del('wc_latitude');
-	variable_del('wc_longitude');
-	variable_del('wc_Disp_Info');
-	variable_del('wc_Disp_Select');
+/**
+ * Implements hook_uninstall().
+ */
+function weathercheck_uninstall() {
+  variable_del('wc_latitude');
+  variable_del('wc_longitude');
+  variable_del('wc_Disp_Info');
+  variable_del('wc_Disp_Select');
 }

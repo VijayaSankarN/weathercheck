@@ -16,5 +16,6 @@ sites/all/modules directory as usual.
 
 Usage
 =====
-In the settings page enter latitude and longitude of the desired location or select the location from the map. Check the required parameters.
-
+In the settings page enter latitude and longitude of 
+the desired location or select the location from the map. 
+Check the required parameters.
