@@ -1,6 +1,5 @@
 name = Weather Check
 description = Check the weather of particular area located from Google Map
 core = 7.x
-version = VERSION
 package = Weather
 configure = admin/config/weathercheck/config

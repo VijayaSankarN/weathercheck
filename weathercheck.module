@@ -67,6 +67,7 @@ function weathercheck_menu() {
 }
 
 function weathercheck_form($form, &$form_state) {	
+	global $conf;
     $form['wc_latitude'] = array(
         '#type' => 'textfield',
         '#element_validate' => array('element_validate_number'),
