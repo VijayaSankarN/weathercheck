@@ -15,8 +15,6 @@ $wc_latlong = array(
 drupal_add_js(array(
   'wc_latlong' => $wc_latlong,
 ), 'setting');
-drupal_add_js('http://maps.google.com/maps/api/js?sensor=false', 'external');
-drupal_add_js(drupal_get_path('module', 'weathercheck') . '/js/AdminMap.js');
 
 /**
  * Implements hook_block_info().
@@ -40,8 +38,12 @@ function weathercheck_block_view($delta = '') {
       $block['content'] = array(
         '#theme' => 'weather_status',
         '#attached' => array(
+          'css' => array(
+            $path . '/css/weathercheck.css',
+          ),
           'js' => array(
             'https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js',
+            'http://maps.google.com/maps/api/js?sensor=false',
             $path . '/js/weathercheck.js',
           ),
         ),
@@ -96,6 +98,14 @@ function weathercheck_menu() {
  */
 function weathercheck_form($form, &$form_state) {
   global $conf;
+  $form['#attached']['js'] = array(
+    'https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js',
+    'http://maps.google.com/maps/api/js?sensor=false',
+    drupal_get_path('module', 'weathercheck') . '/js/AdminMap.js',
+  );
+  $form['#attached']['css'] = array(
+    drupal_get_path('module', 'weathercheck') . '/css/weathercheck.css',
+  );
   $form['weathercheck_latitude'] = array(
     '#type' => 'textfield',
     '#element_validate' => array(
@@ -108,7 +118,7 @@ function weathercheck_form($form, &$form_state) {
         <div>
             <p>Enter the details of the default desired location for your weather map.</p>
         </div>
-        <div id='AdminMap' style='height: 120px; width: 500px; posotion:relative; float: right;'></div>
+        <div id='AdminMap'></div>
         ",
   );
   $form['weathercheck_longitude'] = array(
@@ -138,23 +148,20 @@ function weathercheck_form($form, &$form_state) {
     '#description' => '',
     '#options' => $options[1],
     '#prefix' => '<hr/><br/>Select all the required details for weather forecast:',
+    '#ajax' => array(
+      'callback' => 'weathercheck_form_callback',
+      'wrapper' => 'update-name-value',
+    ),
     '#default_value' => (isset($conf['weathercheck_Disp_Select']) ? variable_get('weathercheck_Disp_Select') : array(
       "1",
       "2",
       "3",
     )),
   );
-  $form['update'] = array(
-    '#type' => 'button',
-    '#value' => 'Update',
-    '#ajax' => array(
-      'callback' => 'weathercheck_form_callback',
-      'wrapper' => 'update-name-value',
-    ),
-  );
   $form['weathercheck_Disp_Info'] = array(
     '#type' => 'hidden',
-    '#value' => ((empty($form_state['values']['weathercheck_Disp_Select'][1]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][2]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][3]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][4]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][5]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][6]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][7]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][8]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][9]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][10]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][11]) ? '0;' : '1;')),
+    '#default_value' => variable_get('weathercheck_Disp_Info'),
+    '#value' => (empty($form_state['values']['weathercheck_Disp_Select']) ? variable_get('weathercheck_Disp_Info') : ((empty($form_state['values']['weathercheck_Disp_Select'][1]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][2]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][3]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][4]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][5]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][6]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][7]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][8]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][9]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][10]) ? '0;' : '1;') . (empty($form_state['values']['weathercheck_Disp_Select'][11]) ? '0;' : '1;'))),
     '#prefix' => "<div id='update-name-value'>",
     '#suffix' => "</div>",
   );

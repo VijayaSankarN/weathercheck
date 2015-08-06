@@ -1,5 +1,4 @@
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<div id="map" style="height: 300px; border: 1px solid #000;"></div>
+<div id="map"></div>
 
 <div ng-app="weatherapp" id="YourElementId" ng-controller="MyModuleWeather">
     <h3 ng-bind="Place"></h3>
