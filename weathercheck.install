@@ -1,0 +1,33 @@
+<?php
+/**
+ * @file
+ * Generates map for retrieving the location of a desired location.
+ *
+ * Vijaya Sankar N <https://www.drupal.org/user/3238637>
+ */
+
+/**
+ * Implements hook_install().
+ */
+function weathercheck_install() {
+  global $conf;
+  if (!isset($conf['weathercheck_latitude'])) {
+    variable_set('weathercheck_latitude', '10.8');
+  }
+  if (!isset($conf['weathercheck_longitude'])) {
+    variable_set('weathercheck_longitude', '78.7');
+  }
+  if (!isset($conf['weathercheck_Disp_Info'])) {
+    variable_set('weathercheck_Disp_Info', '1;1;1;0;0;0;0;0;0;0;0;');
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function weathercheck_uninstall() {
+  variable_del('weathercheck_latitude');
+  variable_del('weathercheck_longitude');
+  variable_del('weathercheck_Disp_Info');
+  variable_del('weathercheck_Disp_Select');
+}

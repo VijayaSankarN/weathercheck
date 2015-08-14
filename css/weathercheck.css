@@ -1,0 +1,16 @@
+/**
+ * @file
+ * CSS for Google Map
+ *
+ * @author: Vijaya Sankar N <https://www.drupal.org/user/3238637>
+ */
+
+#map {
+  height: 300px;
+  border: 1px solid #000;
+}
+#AdminMap {
+  height: 120px;
+  width: 500px;
+  float: right;
+}
